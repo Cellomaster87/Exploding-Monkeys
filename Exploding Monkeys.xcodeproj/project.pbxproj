@@ -15,6 +15,8 @@
 		2DCBDC4D2291728F006BF041 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DCBDC4C2291728F006BF041 /* Assets.xcassets */; };
 		2DCBDC502291728F006BF041 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DCBDC4E2291728F006BF041 /* LaunchScreen.storyboard */; };
 		2DCBDC5822917381006BF041 /* BuildingNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCBDC5722917381006BF041 /* BuildingNode.swift */; };
+		2DCBDC5B22918FE9006BF041 /* hitBuilding.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2DCBDC5922918FE9006BF041 /* hitBuilding.sks */; };
+		2DCBDC5C22918FE9006BF041 /* hitPlayer.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2DCBDC5A22918FE9006BF041 /* hitPlayer.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		2DCBDC4F2291728F006BF041 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2DCBDC512291728F006BF041 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DCBDC5722917381006BF041 /* BuildingNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingNode.swift; sourceTree = "<group>"; };
+		2DCBDC5922918FE9006BF041 /* hitBuilding.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = hitBuilding.sks; sourceTree = "<group>"; };
+		2DCBDC5A22918FE9006BF041 /* hitPlayer.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = hitPlayer.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,8 @@
 				2DCBDC4C2291728F006BF041 /* Assets.xcassets */,
 				2DCBDC4E2291728F006BF041 /* LaunchScreen.storyboard */,
 				2DCBDC512291728F006BF041 /* Info.plist */,
+				2DCBDC5922918FE9006BF041 /* hitBuilding.sks */,
+				2DCBDC5A22918FE9006BF041 /* hitPlayer.sks */,
 			);
 			path = "Exploding Monkeys";
 			sourceTree = "<group>";
@@ -132,6 +138,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2DCBDC4B2291728D006BF041 /* Main.storyboard in Resources */,
+				2DCBDC5B22918FE9006BF041 /* hitBuilding.sks in Resources */,
+				2DCBDC5C22918FE9006BF041 /* hitPlayer.sks in Resources */,
 				2DCBDC422291728D006BF041 /* GameScene.sks in Resources */,
 				2DCBDC4D2291728F006BF041 /* Assets.xcassets in Resources */,
 				2DCBDC502291728F006BF041 /* LaunchScreen.storyboard in Resources */,
