@@ -71,4 +71,30 @@ class BuildingNode: SKSpriteNode {
         // 4. pull out the result as a UIImage and return it for use elsewhere
         return img
     }
+    
+    func hit(at point: CGPoint) {
+        // 1. Figure out where the building was hit. Remember: SpriteKit's positions things from the center and Core Graphics from the bottom left!
+        let convertedPoint = CGPoint(x: point.x + size.width / 2.0, y: abs(point.y - (size.height / 2.0)))
+        
+        // 2. Create a new Core Graphics context the size of our current sprite.
+        let renderer = UIGraphicsImageRenderer(size: size)
+        
+        // 3. Draw our current building image into the context. This will be the full building to begin with, but it will change when hit.
+        let img = renderer.image { (ctx) in
+            currentImage.draw(at: .zero)
+            
+            // 4. Create an ellipse at the collision point. The exact co-ordinates will be 32 points up and to the left of the collision, then 64x64 in size - an ellipse centered on the impact point.
+            ctx.cgContext.addEllipse(in: CGRect(x: convertedPoint.x - 32, y: convertedPoint.y - 32, width: 64, height: 64))
+            
+            // 5. Set the blend mode .clear then draw the ellipse, literally cutting an ellipse out of our image.
+            ctx.cgContext.setBlendMode(.clear)
+            ctx.cgContext.drawPath(using: .fill)
+        }
+        // 6. Convert the contents of the Core Graphics context back to a UIImage, which is saved in the currentImage property for next time we’re hit, and used to update our building texture.
+        texture = SKTexture(image: img)
+        currentImage = img
+        
+        // 7. Call configurePhysics() again so that SpriteKit will recalculate the per-pixel physics for our damaged building.
+        configurePhysics()
+    }
 }
