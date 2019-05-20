@@ -88,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             banana.physicsBody?.applyImpulse(impulse)
         } else {
             // 7. If player 2 was throwing the banana, we position it up and to the right, apply the opposite spin, then make it move in the correct direction.
-            banana.position = CGPoint(x: player2.position.x + 30, y: player1.position.y + 40)
+            banana.position = CGPoint(x: player2.position.x + 30, y: player2.position.y + 40)
             banana.physicsBody?.angularVelocity = 20
             
             let raiseArm = SKAction.setTexture(SKTexture(imageNamed: "player2Throw"))
