@@ -24,10 +24,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var banana: SKSpriteNode!
     
     var currentPlayer = 1
+    var player1score = 0 {
+        didSet {
+            viewController?.playerOneScore.text = "PLAYER ONE SCORE: \(player1score)"
+//            print("Player 1 Score: \(player1score)")
+        }
+    }
+    
+    var player2score = 0 {
+        didSet {
+            viewController?.playerTwoScore.text = "PLAYER TWO SCORE: \(player2score)"
+//            print("Player 2 Score: \(player2score)")
+        }
+    }
     
     // MARK: - Scene management
     override func didMove(to view: SKView) {
         backgroundColor = UIColor(hue: 0.669, saturation: 0.99, brightness: 0.67, alpha: 1)
+        loadScore()
         
         createBuildings()
         createPlayers()
@@ -106,15 +120,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         banana.removeFromParent()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            let newGame = GameScene(size: self.size)
-            newGame.viewController = self.viewController
-            self.viewController?.currentGame = newGame
-            
-            self.changePlayer()
-            newGame.currentPlayer = self.currentPlayer
-            
-            let transition = SKTransition.doorway(withDuration: 1.5)
-            self.view?.presentScene(newGame, transition: transition)
+            if self.player2score == 3 || self.player1score == 3 {
+                let gameOver = SKSpriteNode(imageNamed: "gameOver")
+                gameOver.position = CGPoint(x: 512, y: 384)
+                gameOver.zPosition = 1
+                self.addChild(gameOver)
+                
+                self.scene?.isUserInteractionEnabled = false
+                
+                self.player1score = 0
+                self.player2score = 0
+                self.saveScore()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    self.startNewGame()
+                }
+            } else {
+                self.startNewGame()
+            }
         }
     }
     
@@ -203,10 +225,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if firstNode.name == "banana" && secondNode.name == "player1" {
+            player2score += 1
+            saveScore()
             destroy(player: player1)
         }
         
         if firstNode.name == "banana" && secondNode.name == "player2" {
+            player1score += 1
+            saveScore()
             destroy(player: player2)
         }
     }
@@ -232,5 +258,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Helper methods
     func deg2rad(degrees: Int) -> Double {
         return Double(degrees) * .pi / 180
+    }
+    
+    func saveScore() {
+        let defaults = UserDefaults.standard
+        
+        defaults.set(player1score, forKey: "P1Score")
+        defaults.set(player2score, forKey: "P2Score")
+    }
+    
+    func loadScore() {
+        let defaults = UserDefaults.standard
+        
+        player1score = defaults.integer(forKey: "P1Score")
+        player2score = defaults.integer(forKey: "P2Score")
+    }
+    
+    func startNewGame() {
+        let newGame = GameScene(size: self.size)
+        newGame.viewController = self.viewController
+        self.viewController?.currentGame = newGame
+        
+        self.changePlayer()
+        newGame.currentPlayer = self.currentPlayer
+        
+        let transition = SKTransition.doorway(withDuration: 1.5)
+        self.view?.presentScene(newGame, transition: transition)
     }
 }

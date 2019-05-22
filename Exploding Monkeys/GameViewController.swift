@@ -20,6 +20,8 @@ class GameViewController: UIViewController {
     @IBOutlet var velocityLabel: UILabel!
     @IBOutlet var launchButton: UIButton!
     @IBOutlet var playerNumber: UILabel!
+    @IBOutlet var playerOneScore: UILabel!
+    @IBOutlet var playerTwoScore: UILabel!
     
     // MARK: - View management
     override func viewDidLoad() {
@@ -48,6 +50,8 @@ class GameViewController: UIViewController {
         
         angleChanged(self)
         velocityChanged(self)
+//        playerOneScore.text = "PLAYER ONE SCORE: \(currentGame?.player1score)"
+//        playerTwoScore.text = "PLAYER TWO SCORE: \(currentGame?.player2score)"
     }
 
     override var shouldAutorotate: Bool {
@@ -84,6 +88,9 @@ class GameViewController: UIViewController {
         
         launchButton.isHidden = true
         
+        playerOneScore.isHidden = true
+        playerTwoScore.isHidden = true
+        
         currentGame?.launch(angle: Int(angleSlider.value), velocity: Int(velocitySlider.value))
     }
     
@@ -102,5 +109,8 @@ class GameViewController: UIViewController {
         velocityLabel.isHidden = false
         
         launchButton.isHidden = false
+        
+        playerOneScore.isHidden = false
+        playerTwoScore.isHidden = false
     }
 }
