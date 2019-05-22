@@ -11,6 +11,7 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
+    // MARK: - Properties and Outlets
     var currentGame: GameScene?
 
     @IBOutlet var angleSlider: UISlider!
@@ -20,6 +21,7 @@ class GameViewController: UIViewController {
     @IBOutlet var launchButton: UIButton!
     @IBOutlet var playerNumber: UILabel!
     
+    // MARK: - View management
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +42,8 @@ class GameViewController: UIViewController {
             
             view.showsFPS = true
             view.showsNodeCount = true
+            
+            view.preferredFramesPerSecond = 120
         }
         
         angleChanged(self)
@@ -62,6 +66,7 @@ class GameViewController: UIViewController {
         return true
     }
     
+    // MARK: - Action methods
     @IBAction func angleChanged(_ sender: Any) {
         angleLabel.text = "Angle: \(Int(angleSlider.value))°"
     }
@@ -82,6 +87,7 @@ class GameViewController: UIViewController {
         currentGame?.launch(angle: Int(angleSlider.value), velocity: Int(velocitySlider.value))
     }
     
+    // MARK: - Helper methods
     func activatePlayer(number: Int) {
         if number == 1 {
             playerNumber.text = "<<< PLAYER ONE"
@@ -97,5 +103,4 @@ class GameViewController: UIViewController {
         
         launchButton.isHidden = false
     }
-    
 }
