@@ -27,16 +27,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player1score = 0 {
         didSet {
             viewController?.playerOneScore.text = "PLAYER ONE SCORE: \(player1score)"
-//            print("Player 1 Score: \(player1score)")
         }
     }
     
     var player2score = 0 {
         didSet {
             viewController?.playerTwoScore.text = "PLAYER TWO SCORE: \(player2score)"
-//            print("Player 2 Score: \(player2score)")
         }
     }
+    
+    var windBlowingRight: Bool = true {
+        didSet {
+            if windBlowingRight {
+                viewController?.windLabel.text = "WIND BLOWING RIGHT AT \(Int(windXForce))"
+            } else {
+                viewController?.windLabel.text = "WIND BLOWING LEFT AT \(Int(windXForce))"
+            }
+        }
+    }
+    var windXForce: CGFloat = CGFloat.random(in: 100...200)
+    var windYForce: CGFloat = 0
     
     // MARK: - Scene management
     override func didMove(to view: SKView) {
@@ -142,10 +152,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Gameplay methods
     func launch(angle: Int, velocity: Int) {
-        // 1. Figure out how hard to throw the banana. We accept a velocity parameter, but I'll be dividing that by 10. You can adjust this based on your own play testing.
+        // 1. Figure out how hard to throw the banana.
         let speed = Double(velocity) / 10.0
         
-        // 2. Convert the input angle to radians. Most people don't think in radians, so the input will come in as degrees that we will convert to radians.
+        // 2. Convert the input angle to radians.
         let radians = deg2rad(degrees: angle)
         
         // 3. If somehow there's a banana already, we'll remove it then create a new one using circle physics.
@@ -161,6 +171,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         banana.physicsBody?.collisionBitMask = CollisionTypes.building.rawValue | CollisionTypes.player.rawValue
         banana.physicsBody?.contactTestBitMask = CollisionTypes.building.rawValue | CollisionTypes.player.rawValue
         banana.physicsBody?.usesPreciseCollisionDetection = true
+        
         addChild(banana)
         
         if currentPlayer == 1 {
@@ -178,6 +189,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // 6.Make the banana move in the correct direction.
             let impulse = CGVector(dx: cos(radians) * speed, dy: sin(radians) * speed)
             banana.physicsBody?.applyImpulse(impulse)
+            
+            if windBlowingRight {
+                banana.physicsBody?.applyForce(CGVector(dx: windXForce, dy: windYForce))
+            } else {
+                banana.physicsBody?.applyForce(CGVector(dx: -windXForce, dy: windYForce))
+            }
         } else {
             // 7. If player 2 was throwing the banana, we position it up and to the right, apply the opposite spin, then make it move in the correct direction.
             banana.position = CGPoint(x: player2.position.x + 30, y: player2.position.y + 40)
@@ -191,6 +208,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let impulse = CGVector(dx: cos(radians) * -speed, dy: sin(radians) * speed)
             banana.physicsBody?.applyImpulse(impulse)
+            
+            if windBlowingRight {
+                banana.physicsBody?.applyForce(CGVector(dx: windXForce, dy: windYForce))
+            } else {
+                banana.physicsBody?.applyForce(CGVector(dx: -windXForce, dy: windYForce))
+            }
         }
     }
     
@@ -284,5 +307,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let transition = SKTransition.doorway(withDuration: 1.5)
         self.view?.presentScene(newGame, transition: transition)
+        
+        windBlowingRight = Bool.random()
     }
 }

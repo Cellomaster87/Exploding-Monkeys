@@ -22,6 +22,7 @@ class GameViewController: UIViewController {
     @IBOutlet var playerNumber: UILabel!
     @IBOutlet var playerOneScore: UILabel!
     @IBOutlet var playerTwoScore: UILabel!
+    @IBOutlet var windLabel: UILabel!
     
     // MARK: - View management
     override func viewDidLoad() {
@@ -38,6 +39,7 @@ class GameViewController: UIViewController {
                 
                 currentGame = scene as? GameScene
                 currentGame?.viewController = self
+                currentGame?.windBlowingRight = Bool.random()
             }
             
             view.ignoresSiblingOrder = true
